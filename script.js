@@ -1,9 +1,10 @@
-// script.js - Versão com velocidade aumentada
+// script.js - Fixed version: Thumbnail + modal system
 
 // function to pause all videos
 function pauseAllVideos() {
     document.querySelectorAll('video').forEach(video => {
         video.pause();
+        video.currentTime = 0; // Reset to beginning
     });
 }
 
@@ -185,46 +186,75 @@ function initMain() {
                         };
                         img.src = media.src;
                     } else {
-                        // FOR VIDEOS: create video element directly
+                        // VIDEO: Create thumbnail + play icon (NO AUTOPLAY)
                         const maxSize = 200;
                         mediaElement.style.width = '200px';
                         mediaElement.style.height = '200px';
                         
-                        const videoElement = document.createElement('video');
-                        videoElement.src = media.src;
-                        videoElement.muted = true;
-                        videoElement.loop = true;
-                        videoElement.autoplay = true;
-                        videoElement.playsInline = true;
+                        // Create thumbnail container
+                        const thumbnailContainer = document.createElement('div');
+                        thumbnailContainer.className = 'video-thumbnail';
+                        thumbnailContainer.style.width = '100%';
+                        thumbnailContainer.style.height = '100%';
+                        thumbnailContainer.style.position = 'relative';
+                        thumbnailContainer.style.background = '#111';
+                        thumbnailContainer.style.display = 'flex';
+                        thumbnailContainer.style.alignItems = 'center';
+                        thumbnailContainer.style.justifyContent = 'center';
                         
-                        // adjust proportions when video loads
-                        videoElement.addEventListener('loadedmetadata', function() {
-                            if (this.videoWidth > this.videoHeight) {
-                                mediaElement.style.width = `${maxSize}px`;
-                                mediaElement.style.height = `${(this.videoHeight / this.videoWidth) * maxSize}px`;
-                            } else {
-                                mediaElement.style.height = `${maxSize}px`;
-                                mediaElement.style.width = `${(this.videoWidth / this.videoHeight) * maxSize}px`;
+                        // Create video element for thumbnail generation ONLY
+                        const videoForThumb = document.createElement('video');
+                        videoForThumb.src = media.src;
+                        videoForThumb.muted = true;
+                        videoForThumb.preload = 'metadata';
+                        
+                        // Try to capture first frame for thumbnail
+                        videoForThumb.addEventListener('loadeddata', function() {
+                            if (this.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                                try {
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = this.videoWidth;
+                                    canvas.height = this.videoHeight;
+                                    const ctx = canvas.getContext('2d');
+                                    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+                                    
+                                    const thumbnailImg = document.createElement('img');
+                                    thumbnailImg.src = canvas.toDataURL();
+                                    thumbnailImg.style.width = '100%';
+                                    thumbnailImg.style.height = '100%';
+                                    thumbnailImg.style.objectFit = 'cover';
+                                    
+                                    thumbnailContainer.appendChild(thumbnailImg);
+                                } catch (e) {
+                                    console.log('Thumbnail generation failed, using fallback');
+                                    // Fallback if thumbnail generation fails
+                                    thumbnailContainer.innerHTML = '🎬 VIDEO';
+                                    thumbnailContainer.style.fontSize = '24px';
+                                }
                             }
                         });
                         
-                        videoElement.addEventListener('error', function() {
-                            // fallback for video error
-                            mediaElement.style.width = '200px';
-                            mediaElement.style.height = '200px';
-                            mediaElement.style.backgroundColor = '#333';
-                            mediaElement.style.display = 'flex';
-                            mediaElement.style.alignItems = 'center';
-                            mediaElement.style.justifyContent = 'center';
-                            mediaElement.innerHTML = '🎬';
+                        videoForThumb.addEventListener('error', function() {
+                            // Fallback for video error
+                            thumbnailContainer.innerHTML = '🎬 VIDEO';
+                            thumbnailContainer.style.fontSize = '24px';
                         });
                         
-                        mediaElement.appendChild(videoElement);
+                        // Add play icon overlay
+                        const playIcon = document.createElement('div');
+                        playIcon.className = 'video-play-icon';
+                        playIcon.innerHTML = '▶';
+                        playIcon.style.position = 'absolute';
+                        playIcon.style.top = '50%';
+                        playIcon.style.left = '50%';
+                        playIcon.style.transform = 'translate(-50%, -50%)';
+                        playIcon.style.fontSize = '40px';
+                        playIcon.style.color = 'white';
+                        playIcon.style.textShadow = '0 0 10px rgba(0,0,0,0.7)';
+                        playIcon.style.zIndex = '10';
                         
-                        // add video indicator
-                        const videoIndicator = document.createElement('div');
-                        videoIndicator.className = 'video-indicator';
-                        mediaElement.appendChild(videoIndicator);
+                        thumbnailContainer.appendChild(playIcon);
+                        mediaElement.appendChild(thumbnailContainer);
                         
                         resolve();
                     }
@@ -274,6 +304,7 @@ function initMain() {
             const video = document.querySelector('#modal-media video');
             if (video) {
                 video.pause();
+                video.currentTime = 0; // Reset to beginning
             }
             // resume background video
             if (bgVideo) {
@@ -284,11 +315,7 @@ function initMain() {
         // function to open modal with media
         function openModal(media) {
             // pause all videos on page first (except background)
-            document.querySelectorAll('video').forEach(video => {
-                if (video !== bgVideo) {
-                    video.pause();
-                }
-            });
+            pauseAllVideos();
             
             const mediaContainer = document.getElementById('modal-media');
             mediaContainer.innerHTML = '';
@@ -326,14 +353,11 @@ function initMain() {
                 
                 mediaContainer.appendChild(img);
             } else {
+                // For videos: create video with controls (no autoplay)
                 const video = document.createElement('video');
                 video.src = media.src;
                 video.controls = true;
-                video.autoplay = true;
                 video.playsInline = true;
-                video.muted = false; // DESMUTA NO MODAL
-                
-                // set size for videos in modal
                 video.style.maxWidth = '500px';
                 video.style.maxHeight = '500px';
                 
