@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FUTURE IS GLITCHED</title>
+    <link rel="icon" type="image/png" href="bg/favicon.png">
+    <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@300&display=swap" rel="stylesheet">
+</head>
+<body class="main-page">
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="bg/bg.mp4" type="video/mp4">
+    </video>
+    
+    <div class="welcome-container">
+        <h1>the future is glitched.<br></h1>
+        <div class="social-buttons">
+            <a href="https://x.com/glitchcutt" target="_blank" class="social-button twitter-button">
+                <img src="bg/xlogo.png" alt="X" class="social-logo">
+                <span>/glitchcutt</span>
+            </a>
+            <a href="https://t.me/glitchcut" target="_blank" class="social-button telegram-button">
+                <img src="bg/telegramlogo.png" alt="Telegram" class="social-logo">
+                <span>/glitchcut</span>
+            </a>
+        </div>
+    </div>
+    
+    <main>
+        <div class="media-container" id="media-container">
+            <!-- media items will be inserted via javascript -->
+        </div>
+    </main>
+    
+    <div class="modal" id="media-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-media"></div>
+        </div>
+    </div>
+
+    <div class="glitch-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    <div id="flash-overlay"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

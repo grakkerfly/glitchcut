@@ -1,0 +1,589 @@
+/* basic reset - 90s style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@300&display=swap');
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Turret Road', cursive;
+    overflow: hidden;
+    line-height: 1.2;
+    text-transform: lowercase;
+    font-weight: 400;
+}
+
+/* portal page */
+.portal-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+    position: relative;
+}
+
+#bg-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+    opacity: 1; /* 100% opacity */
+}
+
+.portal-container {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.glitch-portal {
+    width: 300px;
+    height: 600px;
+    margin: 0 auto;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #8a2be2;
+    animation: glitch-border 3s infinite;
+}
+
+.glitch-portal video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(150%);
+}
+
+.portal-text h1 {
+    margin-top: 30px;
+    font-size: 28px;
+    animation: glitch-text 2s infinite;
+    text-shadow: 0,5px 0,5px 0 #ff00ff, -0,5px -0,5px 0 #8a2be2;
+    font-family: 'Turret Road', cursive;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+/* main page */
+.main-page {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.welcome-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+    width: 80%;
+}
+
+.welcome-container h1 {
+    font-size: 2.0rem;
+    margin-bottom: 40px;
+    animation: glitch-text 3s infinite;
+    font-family: 'Turret Road', cursive;
+    letter-spacing: 2px;
+    text-shadow: 0,5px 0,5px 0 #ff00ff, 0,5px -0,5px 0 #8a2be2;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 15px 25px;
+    border: 2px solid #8a2be2;
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+    animation: link-glitch 5s infinite;
+    cursor: pointer;
+    z-index: 500; /* High z-index to bring to front */
+    position: relative;
+}
+
+.social-button:hover {
+    background: #8a2be2;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px #ff00ff;
+    z-index: 550; /* Even higher on hover */
+}
+
+.social-logo {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+}
+
+.media-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+}
+
+.media-item {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+    animation: media-flash 3.2s infinite;
+    max-width: 250px;
+    max-height: 250px;
+    z-index: 1;
+}
+
+.media-item:hover {
+    z-index: 10;
+    animation: media-flash-hover 1s infinite;
+}
+
+.media-item img, .media-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.video-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.video-indicator::before {
+    content: '▶';
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Turret Road', cursive;
+}
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #000;
+    margin: 0;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #8a2be2;
+    animation: glitch-border 2s infinite;
+    display: inline-block;
+    max-width: 500px;
+}
+
+.close {
+    color: #ff00ff;
+    position: absolute;
+    top: -35px;
+    right: 0;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 0.5;
+    z-index: 101;
+    text-shadow: 1px 1px 0 #000;
+    font-family: 'Turret Road', cursive;
+}
+
+.close:hover {
+    color: #8a2be2;
+}
+
+#modal-media {
+    max-width: 500px;
+    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-media img, #modal-media video {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+/* glitch effects */
+.glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 0, 255, 0.03) 50%, rgba(138, 43, 238, 0.03) 50%);
+    background-size: 100% 4px;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.3;
+    animation: scanline 10s linear infinite;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        rgba(255, 255, 255, 0) 100%);
+    background-size: 100% 3px;
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0.05;
+}
+
+.vortex-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, #000 70%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 1s;
+}
+
+#flash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 12;
+}
+
+.flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.flash-white {
+    background: white;
+}
+
+.flash-purple {
+    background: #8a2be2;
+}
+
+.flash-pink {
+    background: #ff00ff;
+}
+
+#flash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+/* Matrix effect - PURPLE VERSION */
+@keyframes matrix-fall {
+    from { transform: translateY(-100px); opacity: 1; }
+    to { transform: translateY(100vh); opacity: 0; }
+}
+
+.matrix-char {
+    position: absolute;
+    color: #8a2be2;
+    font-family: 'Turret Road', cursive;
+    font-size: 16px;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #8a2be2;
+    animation: matrix-fall linear forwards;
+    z-index: 13;
+}
+
+/* animations */
+@keyframes glitch-text {
+    0% { text-shadow: 2px 2px 0 #ff00ff, -2px -2px 0 #8a2be2; }
+    5% { text-shadow: -2px -2px 0 #ff00ff, 2px 2px 0 #8a2be2; }
+    10% { text-shadow: 2px -2px 0 #ff00ff, -2px 2px 0 #8a2be2; }
+    15% { text-shadow: -2px 2px 0 #ff00ff, 2px -2px 0 #8a2be2; }
+    50% { text-shadow: 3px 3px 0 #ff00ff, -3px -3px 0 #8a2be2; }
+    100% { text-shadow: 2极 2px 0 #ff00ff, -2px -2px 0 #8a2be2; }
+}
+
+@keyframes glitch-border {
+    0% { box-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2; }
+    50% { box-shadow: 0 0 15px #8a2be2, 0 0 30px #8a2be2; }
+    100% { box-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2; }
+}
+
+@keyframes scanline {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+}
+
+@keyframes media-flash {
+    0%, 96% { filter: brightness(100%); }
+    97% { filter: brightness(500%); }
+    98% { filter: brightness(100%); }
+    99% { filter: brightness(500%); }
+    100% { filter: brightness(100%); }
+}
+
+@keyframes media-flash-hover {
+    0% { transform: translate(0); filter: brightness(100%) contrast(100%); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+    100% { transform: translate(0); filter: brightness(120%) contrast(120%); }
+}
+
+@keyframes link-glitch {
+    0% { color: #fff; }
+    25% { color: #ff00ff; }
+    50% { color: #8a2be2; }
+    75% { color: #fff; }
+    100% { color: #fff; }
+}
+
+/* Purple vortex animation */
+@keyframes vortex {
+    0% { 
+        transform: scale(1) rotate(0deg);
+        opacity: 0;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, rgba(138, 43, 238, 0.3) 30%, #000 70%);
+        filter: blur(0px);
+    }
+    25% {
+        transform: scale(1.5) rotate(90deg);
+        opacity: 0.7;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 5%, rgba(138, 43, 238, 0.6) 40%, #000 80%);
+        filter: blur(10px);
+    }
+    50% { 
+        transform: scale(2.5) rotate(180deg);
+        opacity: 0.9;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 10%, rgba(255, 0, 255, 0.7) 30%, rgba(138, 43, 238, 0.8) 60%, #000 90%);
+        filter: blur(20px);
+    }
+    75% {
+        transform: scale(3.5) rotate(270deg);
+        opacity: 0.7;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.7) 15%, rgba(255, 0, 255, 0.6) 40%, rgba(138, 43, 238, 0.7) 70%, #000 95%);
+        filter: blur(30px);
+    }
+    100% { 
+        transform: scale(5) rotate(360deg);
+        opacity: 1;
+        background: radial-gradient(circle at center, white 20%, #ff00ff 40%, #8a2be2 60%, #000 90%);
+        filter: blur(50px);
+    }
+}
+
+@keyframes flash-animation {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+
+
+/* ===== cellphone otimization ===== */
+@media (max-width: 768px) {
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        position: fixed;
+    }
+    
+    .portal-container {
+        padding: 20px;
+    }
+    
+    .glitch-portal {
+        width: 300px;
+        height: 600px;
+    }
+    
+    .portal-text h1 {
+        font-size: 16px;
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+    
+    .welcome-container {
+        width: 90%;
+    }
+    
+    .welcome-container h1 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        padding: 0 15px;
+    }
+    
+    .social-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .social-button {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+    
+    .social-logo {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .media-container {
+        height: 100vh !important;
+        width: 100vw !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+    }
+    
+    .media-item {
+        max-width: 100px !important;
+        max-height: 100px !important;
+        animation-duration: 2s !important;
+    }
+    
+    #bg-video {
+        min-width: 100vw;
+        min-height: 100vh;
+        object-fit: cover;
+    }
+    
+    .modal-content {
+        width: 90%;
+        max-width: 90%;
+        padding: 6px;
+    }
+    
+    #modal-media {
+        max-width: 100%;
+        max-height: 50vh;
+    }
+    
+    .close {
+        top: -20px;
+        right: -5px;
+        font-size: 25px;
+    }
+    
+    .glitch-overlay,
+    .scanlines,
+    .noise {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .glitch-portal {
+        width: 225px;
+        height: 450px;
+    }
+    
+    .portal-text h1 {
+        font-size: 16px;
+    }
+    
+    .welcome-container h1 {
+        font-size: 1.1rem;
+    }
+    
+    .media-item {
+        max-width: 120px !important;
+        max-height: 120px !important;
+        animation-duration: 1.5s !important;
+    }
+    
+    .social-button {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+    
+    .social-logo {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* zoom */
+@media (max-width: 768px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
