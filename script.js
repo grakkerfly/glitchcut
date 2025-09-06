@@ -1,4 +1,4 @@
-// script.js - Thumbnail preview + modal (videos/vid1.mp4...)
+// script.js - Thumbnail + modal (arquivos: videos/vid1.mp4 ...)
 
 function pauseAllVideos(){
   document.querySelectorAll('video').forEach(v=>{ try{ v.pause(); v.currentTime=0; }catch(e){} });
@@ -72,8 +72,15 @@ function initMain(){
         videoForThumb.style.display='none';
         document.body.appendChild(videoForThumb);
 
+        let thumbTimeout = setTimeout(()=>{
+          if(!thumbnailContainer.querySelector('img')){
+            thumbnailContainer.innerHTML='🎬 VIDEO'; thumbnailContainer.style.fontSize='24px';
+            try{ if(videoForThumb.parentNode) videoForThumb.remove(); }catch(e){}
+          }
+        }, 3000);
+
         videoForThumb.addEventListener('loadedmetadata', ()=>{
-          videoForThumb.currentTime = 0.1;
+          try{ videoForThumb.currentTime = 0.05; }catch(e){ setTimeout(()=>{ try{ videoForThumb.currentTime = 0.05; }catch(_){} }, 150); }
         });
 
         videoForThumb.addEventListener('seeked', ()=>{
@@ -83,21 +90,22 @@ function initMain(){
             canvas.height = videoForThumb.videoHeight || 90;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(videoForThumb, 0, 0, canvas.width, canvas.height);
-            const thumbnailImg=document.createElement('img');
+            const thumbnailImg = document.createElement('img');
             thumbnailImg.src = canvas.toDataURL('image/png');
             thumbnailImg.style.width='100%'; thumbnailImg.style.height='100%'; thumbnailImg.style.objectFit='cover';
             thumbnailContainer.appendChild(thumbnailImg);
-            mediaElement.dataset.thumb=thumbnailImg.src;
+            mediaElement.dataset.thumb = thumbnailImg.src;
           }catch(e){
             thumbnailContainer.innerHTML='🎬 VIDEO'; thumbnailContainer.style.fontSize='24px';
           }finally{
-            if(videoForThumb.parentNode) videoForThumb.remove();
+            clearTimeout(thumbTimeout);
+            try{ if(videoForThumb.parentNode) videoForThumb.remove(); }catch(e){}
           }
         });
 
-        videoForThumb.addEventListener('error', ()=>{ thumbnailContainer.innerHTML='🎬 VIDEO'; thumbnailContainer.style.fontSize='24px'; if(videoForThumb.parentNode) videoForThumb.remove(); });
+        videoForThumb.addEventListener('error', ()=>{ clearTimeout(thumbTimeout); thumbnailContainer.innerHTML='🎬 VIDEO'; thumbnailContainer.style.fontSize='24px'; try{ if(videoForThumb.parentNode) videoForThumb.remove(); }catch(e){} });
 
-        videoForThumb.load();
+        try{ videoForThumb.load(); }catch(e){ console.log('videoForThumb.load() failed',e); }
 
         const playIcon=document.createElement('div'); playIcon.className='video-play-icon'; playIcon.innerHTML='▶';
         playIcon.style.position='absolute'; playIcon.style.top='50%'; playIcon.style.left='50%'; playIcon.style.transform='translate(-50%,-50%)'; playIcon.style.fontSize='40px'; playIcon.style.color='white'; playIcon.style.textShadow='0 0 10px rgba(0,0,0,0.7)'; playIcon.style.zIndex='10';
@@ -119,7 +127,7 @@ function initMain(){
 
   function closeModal(){
     modal.style.display='none';
-    const v=document.querySelector('#modal-media video'); if(v){ v.pause(); v.currentTime=0; }
+    const v=document.querySelector('#modal-media video'); if(v){ try{ v.pause(); v.currentTime=0; }catch(e){} }
     if(bgVideo) bgVideo.play().catch(e=>console.log('BG play fail',e));
   }
 
@@ -136,9 +144,10 @@ function initMain(){
       const video=document.createElement('video');
       video.src = media.src; video.controls = true; video.playsInline = true; video.preload = 'auto';
       video.style.maxWidth='500px'; video.style.maxHeight='500px';
-      if(document.getElementById(media.id)?.dataset?.thumb) video.poster=document.getElementById(media.id).dataset.thumb;
+      try{ const thumbEl = document.getElementById(media.id); if(thumbEl && thumbEl.dataset && thumbEl.dataset.thumb) video.poster = thumbEl.dataset.thumb; }catch(e){}
+      video.addEventListener('error', (ev)=>{ console.log('Modal video error', ev); mediaContainer.innerHTML = '<div style="color:#fff;padding:20px">Erro ao carregar vídeo.</div>'; });
       mediaContainer.appendChild(video);
-      video.load();
+      try{ video.load(); }catch(e){ console.log('video.load failed', e); }
     }
 
     modal.style.display='block'; if(bgVideo) bgVideo.pause();
