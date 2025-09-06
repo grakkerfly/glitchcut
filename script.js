@@ -138,7 +138,7 @@ function initMain() {
                         const playIcon = document.createElement('div');
                         playIcon.className='video-play-icon';
                         playIcon.innerHTML='▶';
-                        playIcon.style.position='absolute'; playIcon.style.top='50%'; playIcon.style.left='50%'; playIcon.style.transform='translate(-50%,-50%)'; playIcon.style.fontSize='40px'; playIcon.style.color='white'; playIcon.style.textShadow='0 0 10px rgba(0,0,0,0.7)'; playIcon.style.zIndex='10';
+                        playIcon.style.position='absolute'; playIcon.style.top='50%'; playIcon.style.left='50%'; playIcon.style.transform='translate(-50%,-50%)'; playIcon.style.fontSize='20px'; playIcon.style.color='white'; playIcon.style.textShadow='0 0 10px rgba(0,0,0,0.7)'; playIcon.style.zIndex='10';
                         thumbnailContainer.appendChild(playIcon);
 
                         mediaElement.appendChild(thumbnailContainer);
