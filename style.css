@@ -165,10 +165,18 @@ body {
     animation: media-flash-hover 1s infinite;
 }
 
-.media-item img, .media-item video {
+.media-item video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    display: block;
+    loop: true;
+}
+
+.media-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
@@ -216,8 +224,12 @@ body {
     transform: translate(-50%, -50%);
     border: 2px solid #8a2be2;
     animation: glitch-border 2s infinite;
-    display: inline-block;
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
 .close {
@@ -235,21 +247,33 @@ body {
 }
 
 .close:hover {
-    color: #8a2be2;
+    color: #8a极be2;
 }
 
 #modal-media {
-    max-width: 500px;
-    max-height: 500px;
+    max-width: 100%;
+    max-height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: auto;
 }
 
-#modal-media img, #modal-media video {
+#modal-media img {
     max-width: 100%;
     max-height: 100%;
-    display: block;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+#modal-media video {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 /* glitch effects */
@@ -276,7 +300,7 @@ body {
     background: linear-gradient(to bottom, 
         rgba(255, 255, 255, 0) 0%, 
         rgba(255, 255, 255, 0.03) 50%, 
-        rgba(255, 255, 255, 0) 100%);
+        rgba(255, 255, 255, 极) 100%);
     background-size: 100% 3px;
     z-index: 4;
     pointer-events: none;
@@ -344,7 +368,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 极%;
     background: white;
     opacity: 0;
     pointer-events: none;
@@ -362,7 +386,7 @@ body {
     color: #8a2be2;
     font-family: 'Turret Road', cursive;
     font-size: 16px;
-    text-shadow: 0 0 5px #ff00ff, 0 0 10px #8a2be2;
+    text-shadow: 0 0 5极 #ff00ff, 0 0 10px #8a2be2;
     animation: matrix-fall linear forwards;
     z-index: 13;
 }
@@ -374,7 +398,7 @@ body {
     10% { text-shadow: 2px -2px 0 #ff00ff, -2px 2px 0 #8a2be2; }
     15% { text-shadow: -2px 2px 0 #ff00ff, 2px -2px 0 #8a2be2; }
     50% { text-shadow: 3px 3px 0 #ff00ff, -3px -3px 0 #8a2be2; }
-    100% { text-shadow: 2极 2px 0 #ff00ff, -2px -2px 0 #8a2be2; }
+    100% { text-shadow: 2px 2px 0 #ff00ff, -2px -2px 0 #8a2be2; }
 }
 
 @keyframes glitch-border {
@@ -383,7 +407,7 @@ body {
     100% { box-shadow: 0 0 5px #8a2be2, 0 0 10px #8a2be2; }
 }
 
-@keyframes scanline {
+@极eyframes scanline {
     0% { background-position: 0 0; }
     100% { background-position: 0 100%; }
 }
@@ -453,8 +477,6 @@ body {
     100% { opacity: 0; }
 }
 
-
-
 /* ===== cellphone otimization ===== */
 @media (max-width: 768px) {
     html, body {
@@ -469,8 +491,8 @@ body {
     }
     
     .glitch-portal {
-        width: 300px;
-        height: 600px;
+        width: 250px;
+        height: 500px;
     }
     
     .portal-text h1 {
@@ -492,11 +514,14 @@ body {
     .social-buttons {
         flex-direction: column;
         gap: 12px;
+        align-items: center;
     }
     
     .social-button {
-        padding: 10px 15px;
-        font-size: 12px;
+        padding: 12px 20px;
+        font-size: 14px;
+        width: auto;
+        max-width: 280px;
     }
     
     .social-logo {
@@ -516,7 +541,11 @@ body {
     .media-item {
         max-width: 100px !important;
         max-height: 100px !important;
-        animation-duration: 2s !important;
+        animation: media-flash 3.2s infinite !important;
+    }
+    
+    .media-item video {
+        object-fit: cover;
     }
     
     #bg-video {
@@ -526,20 +555,32 @@ body {
     }
     
     .modal-content {
-        width: 90%;
-        max-width: 90%;
-        padding: 6px;
+        width: 95%;
+        max-width: 95%;
+        padding: 15px;
+        margin: 0;
+        max-height: 85vh;
     }
     
     #modal-media {
         max-width: 100%;
-        max-height: 50vh;
+        max-height: 70vh;
+        width: 100%;
+        height: auto;
+    }
+    
+    #modal-media img, #modal-media video {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
     }
     
     .close {
-        top: -20px;
-        right: -5px;
-        font-size: 25px;
+        top: -30px;
+        right: -10px;
+        font-size: 35px;
     }
     
     .glitch-overlay,
@@ -552,12 +593,12 @@ body {
 
 @media (max-width: 480px) {
     .glitch-portal {
-        width: 225px;
-        height: 450px;
+        width: 200px;
+        height: 400px;
     }
     
     .portal-text h1 {
-        font-size: 16px;
+        font-size: 14px;
     }
     
     .welcome-container h1 {
@@ -565,19 +606,37 @@ body {
     }
     
     .media-item {
-        max-width: 120px !important;
-        max-height: 120px !important;
-        animation-duration: 1.5s !important;
+        max-width: 80px !important;
+        max-height: 80px !important;
+        animation: media-flash 3.2s infinite !important;
     }
     
     .social-button {
-        padding: 8px 12px;
-        font-size: 11px;
+        padding: 10px 16px;
+        font-size: 12px;
+        max-width: 240px;
     }
     
     .social-logo {
         width: 16px;
         height: 16px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+        padding: 12px;
+        max-height: 80vh;
+    }
+    
+    #modal-media {
+        max-height: 60vh;
+    }
+    
+    .close {
+        top: -25px;
+        right: -8px;
+        font-size: 30px;
     }
 }
 
