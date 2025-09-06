@@ -196,7 +196,7 @@ body {
 /* modal */
 .modal {
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 100;
     left: 0;
     top: 0;
@@ -586,4 +586,5 @@ body {
     input, select, textarea {
         font-size: 16px !important;
     }
+
 }
