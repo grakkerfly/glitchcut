@@ -182,12 +182,14 @@ function initMain() {
     video.controls=true; video.playsInline=true; video.preload='auto';
     
     // Fallback primeiro
-    video.style.maxWidth='500px';  
-    video.style.maxHeight='500px';
+    const isMobile = window.innerWidth <= 768;
+    const maxSize = isMobile ? 350 : 600;
+    
+    video.style.maxWidth = maxSize + 'px';  
+    video.style.maxHeight = maxSize + 'px';
     
     // Tenta ajustar as dimensões quando o metadata carregar
     video.addEventListener('loadedmetadata', function() {
-        const maxSize = 350;
         const w = this.videoWidth;
         const h = this.videoHeight;
         
@@ -198,8 +200,6 @@ function initMain() {
     });
     
     mediaContainer.appendChild(video);
-    
-    // CORREÇÃO: Faz o vídeo tocar
     video.play().catch(e => console.log('Modal video play error:', e));
 }
             modal.style.display='block'; 
