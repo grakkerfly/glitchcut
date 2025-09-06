@@ -52,7 +52,14 @@ function initPortal() {
             vortex.style.opacity = "1";
             document.body.style.transform = 'scale(1.2)';
             document.body.style.filter = 'blur(3px)';
-            setTimeout(() => { window.location.href = '/main'; }, 900);
+            setTimeout(() => { 
+    // redirect
+    if (window.location.hostname === 'thefutureisglitched.xyz') {
+        window.location.href = 'https://thefutureisglitched.xyz/main';
+    } else {
+        window.location.href = '/main';
+    }
+}, 900);
         });
         function createPurpleMatrixEffect() {
             const chars = '01010101010101010101';
