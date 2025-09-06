@@ -8,6 +8,16 @@ function pauseAllVideos() {
     });
 }
 
+// function to resume all videos (NEW FUNCTION)
+function resumeAllVideos() {
+    document.querySelectorAll('.media-item video').forEach(video => {
+        // Apenas recomeça os vídeos que não estão no modal
+        if (!video.closest('.modal')) {
+            video.play().catch(e => console.log('Video play error:', e));
+        }
+    });
+}
+
 // function to create flash effect
 function createFlash(color, duration, zIndex) {
     const flash = document.createElement('div');
@@ -144,6 +154,10 @@ function initMain() {
             modal.style.display='none';
             const video=document.querySelector('#modal-media video');
             if(video){video.pause(); video.currentTime=0;}
+            
+            // CORREÇÃO: Retomar todos os vídeos quando o modal é fechado
+            resumeAllVideos();
+            
             if(bgVideo) bgVideo.play().catch(e=>console.log('BG video play error:',e));
         }
 
@@ -163,13 +177,33 @@ function initMain() {
                 tempImg.onerror=function(){img.style.maxWidth='500px'; img.style.maxHeight='500px';};
                 tempImg.src=media.src; mediaContainer.appendChild(img);
             } else {
-                const video=document.createElement('video');
-                video.src=media.src;
-                video.controls=true; video.playsInline=true; video.preload='auto';
-                video.style.maxWidth='500px'; video.style.maxHeight='500px';
-                mediaContainer.appendChild(video);
-            }
-            modal.style.display='block'; if(bgVideo) bgVideo.pause();
+    const video=document.createElement('video');
+    video.src=media.src;
+    video.controls=true; video.playsInline=true; video.preload='auto';
+    
+    // Fallback primeiro
+    video.style.maxWidth='500px';  
+    video.style.maxHeight='500px';
+    
+    // Tenta ajustar as dimensões quando o metadata carregar
+    video.addEventListener('loadedmetadata', function() {
+        const maxSize = 350;
+        const w = this.videoWidth;
+        const h = this.videoHeight;
+        
+        if (w && h) {
+            video.style.width = w > h ? `${maxSize}px` : `${(w/h)*maxSize}px`;
+            video.style.height = w > h ? `${(h/w)*maxSize}px` : `${maxSize}px`;
+        }
+    });
+    
+    mediaContainer.appendChild(video);
+    
+    // CORREÇÃO: Faz o vídeo tocar
+    video.play().catch(e => console.log('Modal video play error:', e));
+}
+            modal.style.display='block'; 
+            if(bgVideo) bgVideo.pause();
         }
 
         function startBounceAnimation(element,index){
