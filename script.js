@@ -1,4 +1,4 @@
-// script.js - Versão com velocidade aumentada
+// script.js - VERSÃO OTIMIZADA PARA VÍDEOS
 
 // function to pause all videos
 function pauseAllVideos() {
@@ -185,7 +185,7 @@ function initMain() {
                         };
                         img.src = media.src;
                     } else {
-                        // FOR VIDEOS: create video element directly
+                        // ==== CÓDIGO OTIMIZADO PARA VÍDEOS ====
                         const maxSize = 200;
                         mediaElement.style.width = '200px';
                         mediaElement.style.height = '200px';
@@ -196,9 +196,13 @@ function initMain() {
                         videoElement.loop = true;
                         videoElement.autoplay = true;
                         videoElement.playsInline = true;
+                        videoElement.preload = 'metadata'; // PRÉ-CARREGA OS VÍDEOS
                         
-                        // adjust proportions when video loads
-                        videoElement.addEventListener('loadedmetadata', function() {
+                        // MOSTRA THUMBNAIL IMEDIATAMENTE
+                        videoElement.poster = 'bg/loading-video.jpg'; // adicione uma imagem de loading
+                        
+                        videoElement.addEventListener('loadeddata', function() {
+                            // Ajusta proporções quando o vídeo carrega
                             if (this.videoWidth > this.videoHeight) {
                                 mediaElement.style.width = `${maxSize}px`;
                                 mediaElement.style.height = `${(this.videoHeight / this.videoWidth) * maxSize}px`;
@@ -206,17 +210,26 @@ function initMain() {
                                 mediaElement.style.height = `${maxSize}px`;
                                 mediaElement.style.width = `${(this.videoWidth / this.videoHeight) * maxSize}px`;
                             }
+                            
+                            // Toca o vídeo (muted)
+                            this.play().catch(e => {
+                                console.log('Video play failed, trying again:', e);
+                                this.muted = true;
+                                this.play();
+                            });
                         });
                         
                         videoElement.addEventListener('error', function() {
                             // fallback for video error
                             mediaElement.style.width = '200px';
                             mediaElement.style.height = '200px';
-                            mediaElement.style.backgroundColor = '#333';
+                            mediaElement.style.backgroundColor = '#8a2be2';
                             mediaElement.style.display = 'flex';
                             mediaElement.style.alignItems = 'center';
                             mediaElement.style.justifyContent = 'center';
-                            mediaElement.innerHTML = '🎬';
+                            mediaElement.innerHTML = '🎬 ERROR';
+                            mediaElement.style.color = '#fff';
+                            mediaElement.style.fontSize = '12px';
                         });
                         
                         mediaElement.appendChild(videoElement);
@@ -331,13 +344,29 @@ function initMain() {
                 video.controls = true;
                 video.autoplay = true;
                 video.playsInline = true;
-                video.muted = false; // DESMUTA NO MODAL
+                video.muted = false;
+                video.style.maxWidth = '100%';
+                video.style.maxHeight = '80vh';
                 
-                // set size for videos in modal
-                video.style.maxWidth = '500px';
-                video.style.maxHeight = '500px';
+                // FORÇA O CARREGAMENTO DO VÍDEO NO MODAL
+                video.addEventListener('canplay', function() {
+                    this.play().catch(e => {
+                        console.log('Modal video play failed, trying muted:', e);
+                        this.muted = true;
+                        this.play();
+                    });
+                });
                 
                 mediaContainer.appendChild(video);
+                
+                // Play after a short delay to ensure loading
+                setTimeout(() => {
+                    video.play().catch(e => {
+                        console.log('Modal video play failed:', e);
+                        video.muted = true;
+                        video.play();
+                    });
+                }, 500);
             }
             
             modal.style.display = 'block';
