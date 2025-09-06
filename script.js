@@ -224,3 +224,19 @@ function initMain() {
 }
 
 document.addEventListener('DOMContentLoaded',()=>{initPortal();initMain();});
+
+// block
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// block
+document.addEventListener('dragstart', function(e) {
+    if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
+        e.preventDefault();
+        return false;
+    }
+});
