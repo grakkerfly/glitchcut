@@ -551,7 +551,7 @@ body {
         animation: media-flash 3.2s infinite !important;
     }
     
-    /* CORREÇÃO: Vídeo de fundo responsivo */
+    /* Correction: responsive */
     #bg-video {
         min-width: 100vw;
         min-height: 100vh;
@@ -581,7 +581,7 @@ body {
         flex: 1;
     }
     
-    /* REGRA GERAL PARA VÍDEOS */
+    /* geral rule */
     #modal-media {
     #modal-media img {
         width: auto;
@@ -590,7 +590,7 @@ body {
         object-fit: contain;
 }
     
-    /* REGRA ESPECÍFICA PARA IMAGENS - CORREÇÃO */
+    /* specific rule imgs */
     #modal-media img {
         width: auto;
         max-width: 100%;
@@ -658,7 +658,7 @@ body {
         max-height: 55vh;
     }
     
-    /* REGRA ESPECÍFICA PARA IMAGENS - CORREÇÃO TAMBÉM AQUI */
+    /* specifical rules img */
     #modal-media img {
         width: auto;
         max-width: 100%;
@@ -679,3 +679,4 @@ body {
         font-size: 16px !important;
     }
 }
+
