@@ -155,7 +155,7 @@ function initMain() {
             const video=document.querySelector('#modal-media video');
             if(video){video.pause(); video.currentTime=0;}
             
-            // CORREÇÃO: Retomar todos os vídeos quando o modal é fechado
+            // correction
             resumeAllVideos();
             
             if(bgVideo) bgVideo.play().catch(e=>console.log('BG video play error:',e));
@@ -181,14 +181,14 @@ function initMain() {
     video.src=media.src;
     video.controls=true; video.playsInline=true; video.preload='auto';
     
-    // Fallback primeiro
+    // fallback
     const isMobile = window.innerWidth <= 768;
     const maxSize = isMobile ? 350 : 600;
     
     video.style.maxWidth = maxSize + 'px';  
     video.style.maxHeight = maxSize + 'px';
     
-    // Tenta ajustar as dimensões quando o metadata carregar
+    // dimensions
     video.addEventListener('loadedmetadata', function() {
         const w = this.videoWidth;
         const h = this.videoHeight;
