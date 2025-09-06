@@ -553,13 +553,14 @@ body {
     
     /* Correction: responsive */
     #bg-video {
-        min-width: 100vw;
-        min-height: 100vh;
-        object-fit: cover;
-        left: 0;
-        top: 0;
-        transform: none;
-    }
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+}
     
     .modal-content {
         width: 95%;
@@ -679,4 +680,3 @@ body {
         font-size: 16px !important;
     }
 }
-
