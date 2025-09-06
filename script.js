@@ -151,7 +151,7 @@ function initMain() {
                         const img = new Image();
                         img.onload = function() {
                             // calculate proportional dimensions
-                            const maxSize = 500;
+                            const maxSize = 200;
                             let width, height;
                             
                             if (this.width > this.height) {
@@ -186,7 +186,7 @@ function initMain() {
                         img.src = media.src;
                     } else {
                         // FOR VIDEOS: create video element directly
-                        const maxSize = 500;
+                        const maxSize = 200;
                         mediaElement.style.width = '200px';
                         mediaElement.style.height = '200px';
                         
@@ -331,6 +331,7 @@ function initMain() {
                 video.controls = true;
                 video.autoplay = true;
                 video.playsInline = true;
+                video.muted = false; // DESMUTA NO MODAL
                 
                 // set size for videos in modal
                 video.style.maxWidth = '500px';
@@ -408,5 +409,4 @@ function initMain() {
 document.addEventListener('DOMContentLoaded', function() {
     initPortal();
     initMain();
-
 });
