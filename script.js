@@ -52,7 +52,7 @@ function initPortal() {
             vortex.style.opacity = "1";
             document.body.style.transform = 'scale(1.2)';
             document.body.style.filter = 'blur(3px)';
-            setTimeout(() => { window.location.href = 'main.html'; }, 900);
+            setTimeout(() => { window.location.href = '/main'; }, 900);
         });
         function createPurpleMatrixEffect() {
             const chars = '01010101010101010101';
