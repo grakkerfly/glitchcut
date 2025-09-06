@@ -203,7 +203,7 @@ function initMain() {
                                 mediaElement.style.width = `${maxSize}px`;
                                 mediaElement.style.height = `${(this.videoHeight / this.videoWidth) * maxSize}px`;
                             } else {
-                                media极lement.style.height = `${maxSize}px`;
+                                mediaElement.style.height = `${maxSize}px`;
                                 mediaElement.style.width = `${(this.videoWidth / this.videoHeight) * maxSize}px`;
                             }
                         });
@@ -408,4 +408,5 @@ function initMain() {
 document.addEventListener('DOMContentLoaded', function() {
     initPortal();
     initMain();
+
 });
